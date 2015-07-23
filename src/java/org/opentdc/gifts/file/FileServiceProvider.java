@@ -44,10 +44,6 @@ import org.opentdc.service.exception.NotFoundException;
 import org.opentdc.service.exception.ValidationException;
 import org.opentdc.util.PrettyPrinter;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-
 /**
  * A file-based or transient implementation of the Gifts service.
  * @author Bruno Kaiser
