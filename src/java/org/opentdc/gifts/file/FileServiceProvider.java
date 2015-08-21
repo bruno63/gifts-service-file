@@ -80,8 +80,8 @@ public class FileServiceProvider extends AbstractFileServiceProvider<GiftModel> 
 	 */
 	@Override
 	public ArrayList<GiftModel> list(
-		String queryType,
 		String query,
+		String queryType,
 		int position,
 		int size
 	) {
