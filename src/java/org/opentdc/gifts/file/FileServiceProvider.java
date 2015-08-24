@@ -34,10 +34,12 @@ import java.util.UUID;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.opentdc.file.AbstractFileServiceProvider;
 import org.opentdc.gifts.GiftModel;
 import org.opentdc.gifts.ServiceProvider;
+import org.opentdc.service.ServiceUtil;
 import org.opentdc.service.exception.DuplicateException;
 import org.opentdc.service.exception.InternalServerErrorException;
 import org.opentdc.service.exception.NotFoundException;
@@ -103,6 +105,7 @@ public class FileServiceProvider extends AbstractFileServiceProvider<GiftModel> 
 	 */
 	@Override
 	public GiftModel create(
+		HttpServletRequest request,
 		GiftModel gift) 
 	throws DuplicateException, ValidationException {
 		logger.info("create(" + PrettyPrinter.prettyPrintAsJSON(gift) + ")");
@@ -128,9 +131,9 @@ public class FileServiceProvider extends AbstractFileServiceProvider<GiftModel> 
 		gift.setId(_id);
 		Date _date = new Date();
 		gift.setCreatedAt(_date);
-		gift.setCreatedBy(getPrincipal());
+		gift.setCreatedBy(ServiceUtil.getPrincipal(request));
 		gift.setModifiedAt(_date);
-		gift.setModifiedBy(getPrincipal());
+		gift.setModifiedBy(ServiceUtil.getPrincipal(request));
 		index.put(_id, gift);
 		logger.info("create(" + PrettyPrinter.prettyPrintAsJSON(gift) + ")");
 		if (isPersistent) {
@@ -160,6 +163,7 @@ public class FileServiceProvider extends AbstractFileServiceProvider<GiftModel> 
 	 */
 	@Override
 	public GiftModel update(
+		HttpServletRequest request,		
 		String id, 
 		GiftModel gift
 	) throws NotFoundException, ValidationException {
@@ -179,7 +183,7 @@ public class FileServiceProvider extends AbstractFileServiceProvider<GiftModel> 
 		_gift.setTitle(gift.getTitle());
 		_gift.setDescription(gift.getDescription());
 		_gift.setModifiedAt(new Date());
-		_gift.setModifiedBy(getPrincipal());
+		_gift.setModifiedBy(ServiceUtil.getPrincipal(request));
 		index.put(id, _gift);
 		logger.info("update(" + id + ") -> " + PrettyPrinter.prettyPrintAsJSON(_gift));
 		if (isPersistent) {
